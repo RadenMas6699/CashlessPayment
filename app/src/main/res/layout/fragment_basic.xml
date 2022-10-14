@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Created by RadenMas on 5/10/2022.
+  ~ Copyright (c) 2022.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            <ImageView
+                android:id="@+id/imgBack"
+                android:layout_width="28dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/back"
+                android:src="@drawable/ic_arrow_left" />
+
+            <TextView
+                style="@style/TitleToolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/imgBack"
+                android:text="@string/profile" />
+        </RelativeLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+</RelativeLayout>

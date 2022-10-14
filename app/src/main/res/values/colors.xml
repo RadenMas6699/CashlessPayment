@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by RadenMas on 5/10/2022.
+  ~ Copyright (c) 2022.
+  -->
+
+<resources>
+<!--    <color name="purple_200">#FFBB86FC</color>-->
+<!--    <color name="purple_500">#FF6200EE</color>-->
+<!--    <color name="purple_700">#FF3700B3</color>-->
+<!--    <color name="teal_200">#FF03DAC5</color>-->
+<!--    <color name="teal_700">#FF018786</color>-->
+
+    <color name="primary">#2B6CF4</color>
+    <color name="primary_dark">#2253B6</color>
+    <color name="primary_light">#5D8EF6</color>
+    <color name="primary_light2">#F4F8FF</color>
+<!--    <color name="primary">#0091FF</color>-->
+<!--    <color name="primary_dark">#033FC0</color>-->
+<!--    <color name="primary_light">#9ED0F6</color>-->
+    <color name="primary_text">#212226</color>
+    <color name="secondary_text">#757575</color>
+    <color name="white_text">#F7F9FC</color>
+    <color name="hint">#C4C4C4</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="red">#E02020</color>
+    <color name="semi_red">#26E02020</color>
+    <color name="orange">#FFC730</color>
+    <color name="green">#15BE6D</color>
+</resources>

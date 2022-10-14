@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by RadenMas on 5/10/2022.
+  ~ Copyright (c) 2022.
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_user"
+    app:startDestination="@id/userHomeFragment">
+
+    <fragment
+        android:id="@+id/userHomeFragment"
+        android:name="com.radenmas.cashless_payment.ui.user.UserHomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_user_home"/>
+
+    <fragment
+        android:id="@+id/userCreateFragment"
+        android:name="com.radenmas.cashless_payment.ui.user.UserCreateFragment"
+        android:label="@string/pay"
+        tools:layout="@layout/fragment_user_pay" />
+
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.radenmas.cashless_payment.ui.user.UserProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_user_profile"/>
+
+
+</navigation>

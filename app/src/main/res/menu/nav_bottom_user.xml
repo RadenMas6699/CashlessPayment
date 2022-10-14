@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by RadenMas on 5/10/2022.
+  ~ Copyright (c) 2022.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/userHomeFragment"
+        android:icon="@drawable/ic_home_outline"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/userPayFragment"
+        android:icon="@drawable/ic_scan_outline"
+        android:title="@string/pay" />
+    <item
+        android:id="@+id/userProfileFragment"
+        android:icon="@drawable/ic_profile_outline"
+        android:title="@string/profile" />
+</menu>

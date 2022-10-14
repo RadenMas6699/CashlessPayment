@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "76312852008",
+    "project_id": "cashless-payment-fc0ec",
+    "storage_bucket": "cashless-payment-fc0ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76312852008:android:bfd2cc9d12fd876f8da71d",
+        "android_client_info": {
+          "package_name": "com.radenmas.cashless_payment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "76312852008-4b8pgleskuqth3esuaiu12ps6a64ep34.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsWoXrHT6OHaIElzGvTjmQcmFOJPJZ26g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "76312852008-4b8pgleskuqth3esuaiu12ps6a64ep34.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

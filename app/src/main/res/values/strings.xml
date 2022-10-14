@@ -1,0 +1,31 @@
+<!--
+  ~ Created by RadenMas on 5/10/2022.
+  ~ Copyright (c) 2022.
+  -->
+
+<resources>
+    <string name="app_name">Cashless Payment</string>
+    <string name="app_version">Versi %1$s</string>
+    <string name="login">Login</string>
+    <string name="login_desc">So happy to see you again!</string>
+    <string name="username">Username</string>
+    <string name="password">Kata Sandi</string>
+    <string name="repeat_password">Ulangi Kata Sandi</string>
+    <string name="forgot_password">Lupa kata sandi?</string>
+    <string name="register">Registrasi</string>
+    <string name="register_desc">Buat akun Anda</string>
+    <string name="email">Email</string>
+    <string name="dont_have_account">Belum punya akun?</string>
+    <string name="already_have_account">Sudah punya akun?</string>
+    <string name="home">Beranda</string>
+    <string name="pay">Bayar</string>
+    <string name="profile">Profil</string>
+    <string name="ubah_profil">Ubah Profil</string>
+    <string name="logout">Keluar</string>
+    <string name="welcome">Selamat datang</string>
+    <string name="back">Kembali</string>
+    <string name="permission_granted">Izinkan</string>
+    <string name="top_up">Top Up</string>
+    <string name="transaksi">Transaksi</string>
+
+</resources>

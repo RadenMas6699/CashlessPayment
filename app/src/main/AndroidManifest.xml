@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by RadenMas on 5/10/2022.
+  ~ Copyright (c) 2022.
+  -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.radenmas.cashless_payment">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+
+    <application
+        android:name="com.radenmas.cashless_payment.MyApplication"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/ic_scan_outline"
+        android:allowBackup="false"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_scan_outline"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LOKI_logo_kita"
+        tools:replace="android:allowBackup"
+        tools:targetApi="31">
+        <activity
+            android:name="com.radenmas.cashless_payment.ui.user.UserMainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.radenmas.cashless_payment.ui.auth.AuthActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.radenmas.cashless_payment.ui.splash.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
