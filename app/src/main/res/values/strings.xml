@@ -27,5 +27,6 @@
     <string name="permission_granted">Izinkan</string>
     <string name="top_up">Top Up</string>
     <string name="transaksi">Transaksi</string>
+    <string name="history_transaction">Riwayat Transaksi</string>
 
 </resources>

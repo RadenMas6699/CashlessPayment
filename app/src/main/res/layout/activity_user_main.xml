@@ -16,7 +16,6 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottomAppBar"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_user" />
 
@@ -26,7 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:fabCradleMargin="8dp"
-        app:fabCradleRoundedCornerRadius="8dp">
+        app:fabCradleRoundedCornerRadius="8dp"
+        app:fabCradleVerticalOffset="8dp">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/navBottomUser"
