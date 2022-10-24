@@ -9,9 +9,8 @@
         android:icon="@drawable/ic_home_outline"
         android:title="@string/home" />
     <item
-        android:id="@+id/userPayFragment"
-        android:icon="@drawable/ic_scan_outline"
-        android:title="@string/pay" />
+        android:id="@+id/placeholder"
+        android:title="" />
     <item
         android:id="@+id/userProfileFragment"
         android:icon="@drawable/ic_profile_outline"
