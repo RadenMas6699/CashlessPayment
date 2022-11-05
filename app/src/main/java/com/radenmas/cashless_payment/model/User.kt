@@ -15,7 +15,7 @@ class User {
     lateinit var email: String
     lateinit var password: String
     lateinit var profile: String
-    lateinit var token: String
+    var balance: Int = 0
     lateinit var role: String
 
     constructor() {}
@@ -26,7 +26,7 @@ class User {
         email: String,
         password: String,
         profile: String,
-        token: String,
+        balance: Int,
         role: String
     ) {
         this.uid = uid
@@ -34,7 +34,7 @@ class User {
         this.email = email
         this.password = password
         this.profile = profile
-        this.token = token
+        this.balance = balance
         this.role = role
     }
 }

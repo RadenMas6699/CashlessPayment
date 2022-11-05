@@ -6,10 +6,10 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'com.google.gms.google-services'
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -74,9 +74,9 @@ dependencies {
     implementation 'com.midtrans:uikit:1.32.0-SANDBOX'
 
     // Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.2")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.2")
-    implementation 'com.google.android.material:material:1.8.0-alpha01'
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
+    implementation 'com.google.android.material:material:1.8.0-alpha02'
 
     // Animation
     implementation 'com.airbnb.android:lottie:5.2.0'

@@ -48,7 +48,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/roboto_bold"
             android:singleLine="true"
-            android:text="M Sukron Kurniawan"
+            android:text="Dewi"
             android:textColor="@color/primary_text"
             android:textSize="16sp" />
 

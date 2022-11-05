@@ -45,8 +45,8 @@ class LoginFragment : Fragment() {
     private fun onClick() {
 
         b.btnLogin.setOnClickListener {
-            val email: String = b.etEmail.text.toString()
-            val password: String = b.etPassword.text.toString()
+            val email: String = b.etEmail.text.toString().trim()
+            val password: String = b.etPassword.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(context, "Lengkapi yang masih kosong", Toast.LENGTH_SHORT).show()
