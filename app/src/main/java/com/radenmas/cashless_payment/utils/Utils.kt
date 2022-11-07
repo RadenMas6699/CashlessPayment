@@ -87,7 +87,7 @@ object Utils {
 
     fun formatDateSimple(timestamp: Long): String {
         val formatDate = SimpleDateFormat(
-            "dd MMM yy - HH:mm", Locale("ID")
+            "dd-MM-yyyy", Locale("ID")
         )
         val date = Date(timestamp)
         return formatDate.format(date)

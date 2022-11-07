@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -28,6 +27,9 @@ class UserProfileFragment : Fragment() {
 
     private var _b: FragmentUserProfileBinding? = null
     private val b get() = _b!!
+
+    val uid = FirebaseAuth.getInstance().currentUser!!.uid
+    val database = FirebaseDatabase.getInstance().reference
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,29 +63,24 @@ class UserProfileFragment : Fragment() {
     }
 
     private fun initView() {
-//        val uid: String = FirebaseAuth.getInstance().currentUser!!.uid
-//        FirebaseDatabase.getInstance().reference.child("User").child(uid)
-//            .addValueEventListener(object : ValueEventListener {
-//                override fun onDataChange(snapshot: DataSnapshot) {
-//                    val user = snapshot.getValue(User::class.java)!!
-//                    if (user.profile == "default") {
-//                        Glide.with(requireContext())
-//                            .load(R.drawable.ic_profile_default)
-//                            .into(b.imgProfile)
-//                    } else {
-//                        Glide.with(requireContext())
-//                            .load(user.profile)
-//                            .into(b.imgProfile)
-//                    }
-//                    b.tvUsername.text = user.username
-//                    b.tvUsername.text = user.username
-//                    b.tvEmail.text = user.email
-//                }
-//
-//                override fun onCancelled(error: DatabaseError) {
-//
-//                }
-//            })
+        FirebaseDatabase.getInstance().reference.child("User").child(uid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val user = snapshot.getValue(User::class.java)!!
+
+                    Glide.with(requireContext())
+                        .load(user.profile)
+                        .placeholder(R.drawable.ic_profile_default)
+                        .into(b.imgProfile)
+
+                    b.tvUsername.text = user.username
+                    b.tvEmail.text = user.email
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
     }
 
     override fun onDestroyView() {

@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<!--
-  ~ Created by RadenMas on 5/10/2022.
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by RadenMas on 5/11/2022.
   ~ Copyright (c) 2022.
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ui.scan.ScanActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
@@ -34,7 +34,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/imgBack"
-                android:text="@string/profile" />
+                android:text="@string/payment" />
         </RelativeLayout>
     </com.google.android.material.appbar.AppBarLayout>
+
+    <FrameLayout
+        android:id="@+id/frameCamera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/appBar" />
+
 </RelativeLayout>

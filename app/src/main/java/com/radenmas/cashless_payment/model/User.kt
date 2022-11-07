@@ -15,7 +15,7 @@ class User {
     lateinit var email: String
     lateinit var password: String
     lateinit var profile: String
-    var balance: Int = 0
+    var balance: Int? = null
     lateinit var role: String
 
     constructor() {}

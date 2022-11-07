@@ -9,7 +9,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/imgTransaksi"
+        android:id="@+id/imgType"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginStart="16dp"
@@ -28,7 +28,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_toEndOf="@id/imgTransaksi"
+        android:layout_toEndOf="@id/imgType"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -36,22 +36,22 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_toStartOf="@id/tvPrice"
+                android:layout_toStartOf="@id/tvBalance"
                 android:fontFamily="@font/roboto"
                 android:text="@string/top_up"
                 android:textColor="@color/primary_text"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tvPrice"
+                android:id="@+id/tvBalance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
-                android:drawablePadding="4dp"
                 android:fontFamily="@font/roboto"
                 android:gravity="center_vertical"
                 android:text="+Rp400.000"
@@ -67,6 +67,7 @@
             android:layout_marginTop="2dp">
 
             <TextView
+                android:id="@+id/tvDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

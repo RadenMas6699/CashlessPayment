@@ -16,12 +16,6 @@
         tools:layout="@layout/fragment_user_home"/>
 
     <fragment
-        android:id="@+id/userCreateFragment"
-        android:name="com.radenmas.cashless_payment.ui.user.UserCreateFragment"
-        android:label="@string/pay"
-        tools:layout="@layout/fragment_user_pay" />
-
-    <fragment
         android:id="@+id/userProfileFragment"
         android:name="com.radenmas.cashless_payment.ui.user.UserProfileFragment"
         android:label="@string/profile"

@@ -73,6 +73,9 @@ dependencies {
     // Midtrans
     implementation 'com.midtrans:uikit:1.32.0-SANDBOX'
 
+    // QR Code
+    implementation 'me.dm7.barcodescanner:zxing:1.9.8'
+
     // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
@@ -81,4 +84,6 @@ dependencies {
     // Animation
     implementation 'com.airbnb.android:lottie:5.2.0'
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
+
 }

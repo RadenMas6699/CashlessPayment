@@ -19,6 +19,7 @@
     <string name="already_have_account">Sudah punya akun?</string>
     <string name="home">Beranda</string>
     <string name="pay">Bayar</string>
+    <string name="payment">Pembayaran</string>
     <string name="profile">Profil</string>
     <string name="ubah_profil">Ubah Profil</string>
     <string name="logout">Keluar</string>
