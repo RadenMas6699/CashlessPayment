@@ -6,6 +6,10 @@
 <resources>
     <string name="app_name">Cashless Payment</string>
     <string name="app_version">Versi %1$s</string>
+    <string name="pay_in">Dari %1$s</string>
+    <string name="pay_out">Ke %1$s</string>
+    <string name="balance_in">+%1$s</string>
+    <string name="balance_out">-%1$s</string>
     <string name="login">Login</string>
     <string name="login_desc">So happy to see you again!</string>
     <string name="username">Username</string>
@@ -20,14 +24,15 @@
     <string name="home">Beranda</string>
     <string name="pay">Bayar</string>
     <string name="payment">Pembayaran</string>
+    <string name="top_up">Top Up</string>
     <string name="profile">Profil</string>
     <string name="ubah_profil">Ubah Profil</string>
     <string name="logout">Keluar</string>
     <string name="welcome">Selamat datang</string>
     <string name="back">Kembali</string>
     <string name="permission_granted">Izinkan</string>
-    <string name="top_up">Top Up</string>
     <string name="transaksi">Transaksi</string>
     <string name="history_transaction">Riwayat Transaksi</string>
+    <string name="scan">Scan</string>
 
 </resources>

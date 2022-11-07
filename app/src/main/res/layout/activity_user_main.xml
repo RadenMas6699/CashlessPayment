@@ -46,6 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:contentDescription="@string/scan"
         android:src="@drawable/ic_scan_outline"
         app:backgroundTint="@color/primary"
         app:fabSize="normal"

@@ -87,7 +87,7 @@ object Utils {
 
     fun formatDateSimple(timestamp: Long): String {
         val formatDate = SimpleDateFormat(
-            "dd-MM-yyyy", Locale("ID")
+            "dd MMM yyyy, HH:mm", Locale("ID")
         )
         val date = Date(timestamp)
         return formatDate.format(date)
@@ -101,11 +101,6 @@ object Utils {
         val number: String =
             String.format("%,d", value)
         return "Rp$number"
-    }
-
-    fun formatUsage(value: String): String {
-//        return "$value M\u00B3"
-        return "$value L"
     }
 
     fun formatToken(value: String): String {
@@ -123,49 +118,6 @@ object Utils {
             number.length
         )
         return number
-    }
-
-    fun formatPeriod(month: String, year: String): String {
-        var bulan: String? = null
-        when (month) {
-            "1" -> {
-                bulan = "Januari"
-            }
-            "2" -> {
-                bulan = "Februari"
-            }
-            "3" -> {
-                bulan = "Maret"
-            }
-            "4" -> {
-                bulan = "April"
-            }
-            "5" -> {
-                bulan = "Mei"
-            }
-            "6" -> {
-                bulan = "Juni"
-            }
-            "7" -> {
-                bulan = "Juli"
-            }
-            "8" -> {
-                bulan = "Agustus"
-            }
-            "9" -> {
-                bulan = "September"
-            }
-            "10" -> {
-                bulan = "Oktober"
-            }
-            "11" -> {
-                bulan = "November"
-            }
-            "12" -> {
-                bulan = "Desember"
-            }
-        }
-        return "$bulan $year"
     }
 
     fun reduceBitmapSize(bitmap: Bitmap, MAX_SIZE: Int): Bitmap? {

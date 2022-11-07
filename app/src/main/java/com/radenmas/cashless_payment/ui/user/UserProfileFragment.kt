@@ -28,8 +28,8 @@ class UserProfileFragment : Fragment() {
     private var _b: FragmentUserProfileBinding? = null
     private val b get() = _b!!
 
-    val uid = FirebaseAuth.getInstance().currentUser!!.uid
-    val database = FirebaseDatabase.getInstance().reference
+    private val uid = FirebaseAuth.getInstance().currentUser!!.uid
+    private val database = FirebaseDatabase.getInstance().reference
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,8 +63,8 @@ class UserProfileFragment : Fragment() {
     }
 
     private fun initView() {
-        FirebaseDatabase.getInstance().reference.child("User").child(uid)
-            .addValueEventListener(object : ValueEventListener {
+        database.child("User").child(uid)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val user = snapshot.getValue(User::class.java)!!
 

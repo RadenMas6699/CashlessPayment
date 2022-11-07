@@ -54,10 +54,13 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
         scanner.setAutoFocus(true)
         b.frameCamera.addView(scanner)
 
+        b.imgBack.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     override fun handleResult(p0: Result?) {
-        val qrCode = p0?.text.toString().replace(".","")
+        val qrCode = p0?.text.toString().replace(".", "")
 
         // Cek QR Code
         // Cek Saldo User
@@ -132,8 +135,7 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
                         } else {
                             Utils.toast(this@ScanActivity, "Saldo Anda tidak cukup")
                         }
-                    }
-                    else{
+                    } else {
                         Utils.toast(this@ScanActivity, "ERROR")
                     }
                 }

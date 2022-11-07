@@ -18,7 +18,7 @@ class User {
     var balance: Int? = null
     lateinit var role: String
 
-    constructor() {}
+    constructor()
 
     constructor(
         uid: String,
