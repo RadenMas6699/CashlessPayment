@@ -10,21 +10,22 @@
     <string name="pay_out">Ke %1$s</string>
     <string name="balance_in">+%1$s</string>
     <string name="balance_out">-%1$s</string>
+    <string name="nominal_top_up">Nominal Isi Saldo</string>
     <string name="login">Login</string>
-    <string name="login_desc">So happy to see you again!</string>
+    <string name="login_desc">Login menggunakan akun yang telah terdaftar.</string>
     <string name="username">Username</string>
     <string name="password">Kata Sandi</string>
     <string name="repeat_password">Ulangi Kata Sandi</string>
     <string name="forgot_password">Lupa kata sandi?</string>
     <string name="register">Registrasi</string>
-    <string name="register_desc">Buat akun Anda</string>
+    <string name="register_desc">Daftarkan diri anda terlebih dahulu.</string>
     <string name="email">Email</string>
     <string name="dont_have_account">Belum punya akun?</string>
     <string name="already_have_account">Sudah punya akun?</string>
     <string name="home">Beranda</string>
     <string name="pay">Bayar</string>
     <string name="payment">Pembayaran</string>
-    <string name="top_up">Top Up</string>
+    <string name="top_up">Isi Saldo</string>
     <string name="profile">Profil</string>
     <string name="ubah_profil">Ubah Profil</string>
     <string name="logout">Keluar</string>
@@ -34,5 +35,12 @@
     <string name="transaksi">Transaksi</string>
     <string name="history_transaction">Riwayat Transaksi</string>
     <string name="scan">Scan</string>
+    <string name="notification">Notifikasi</string>
+    <string name="qr_profil">QR PROFIL</string>
+    <string name="qr_code">QR Code</string>
+    <string name="total_balance">Total Saldo</string>
+    <string name="rp">Rp</string>
+    <string name="desc_transaction_empty">Transaksi kamu masih kosong</string>
+    <string name="desc_notification_empty">Tidak ada notifikasi</string>
 
 </resources>

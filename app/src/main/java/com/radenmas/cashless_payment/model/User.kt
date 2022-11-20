@@ -10,13 +10,13 @@ package com.radenmas.cashless_payment.model
  */
 
 class User {
-    lateinit var uid: String
-    lateinit var username: String
-    lateinit var email: String
-    lateinit var password: String
-    lateinit var profile: String
+    var uid: String = ""
+    var username: String = ""
+    var email: String = ""
+    var password: String = ""
+    var profile: String = ""
     var balance: Int? = null
-    lateinit var role: String
+    var role: String = ""
 
     constructor()
 

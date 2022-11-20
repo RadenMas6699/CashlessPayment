@@ -17,10 +17,11 @@ class History {
     lateinit var sender_name: String
     lateinit var receive_name: String
     lateinit var status: String
+    lateinit var type: String
     var balance: Int? = null
     var timestamp: Long? = null
 
-    constructor() {}
+    constructor()
 
     constructor(
         id: String,
@@ -29,6 +30,7 @@ class History {
         sender_name: String,
         receive_name: String,
         status: String,
+        type: String,
         balance: Int,
         timestamp: Long,
     ) {
@@ -38,6 +40,7 @@ class History {
         this.sender_name = sender_name
         this.receive_name = receive_name
         this.status = status
+        this.type = type
         this.balance = balance
         this.timestamp = timestamp
     }

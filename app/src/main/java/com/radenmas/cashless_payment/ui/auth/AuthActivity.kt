@@ -47,17 +47,8 @@ class AuthActivity : AppCompatActivity() {
         val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
         if (user != null) {
-            val myAccount = getSharedPreferences("myAccount", MODE_PRIVATE)
-            val role = myAccount.getString("role", "")
-
-            if (role == "user") {
-                startActivity(Intent(this, UserMainActivity::class.java))
-                finish()
-            }
-//            else if (role == "admin") {
-//                startActivity(Intent(this, AdminActivity::class.java))
-//                finish()
-//            }
+            startActivity(Intent(this, UserMainActivity::class.java))
+            finish()
         }
 
         requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -69,7 +60,6 @@ class AuthActivity : AppCompatActivity() {
                 this,
                 permission
             ) == PackageManager.PERMISSION_GRANTED -> {
-//                Utils.toast(this, "Permission Granted")
             }
             ActivityCompat.shouldShowRequestPermissionRationale(
                 this,

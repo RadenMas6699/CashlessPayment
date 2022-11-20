@@ -7,18 +7,14 @@ package com.radenmas.cashless_payment.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.radenmas.cashless_payment.R
 import com.radenmas.cashless_payment.databinding.FragmentLoginBinding
 import com.radenmas.cashless_payment.ui.user.UserMainActivity
@@ -26,15 +22,12 @@ import com.radenmas.cashless_payment.utils.Utils
 
 class LoginFragment : Fragment() {
 
-    private var _b: FragmentLoginBinding? = null
-    private val b get() = _b!!
+    private lateinit var b: FragmentLoginBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _b = FragmentLoginBinding.inflate(inflater, container, false)
+        b = FragmentLoginBinding.inflate(inflater, container, false)
         val view = b.root
 
         initView()
@@ -64,48 +57,28 @@ class LoginFragment : Fragment() {
     private fun login(email: String, password: String) {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                val uid = it.user!!.uid
-                FirebaseDatabase.getInstance().reference.child("User").child(uid)
-                    .addValueEventListener(object : ValueEventListener {
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            val role = snapshot.child("role").value.toString().trim()
+                Utils.toast(requireContext(), "Login berhasil")
+                Utils.dismissLoading()
 
-                            val myAccount = requireContext().getSharedPreferences(
-                                "myAccount",
-                                AppCompatActivity.MODE_PRIVATE
-                            )
-                            val editor = myAccount.edit()
-                            editor.putString("role", role)
-                            editor.apply()
+                startActivity(Intent(context, UserMainActivity::class.java))
 
-                            Utils.toast(requireContext(), "Login berhasil")
-                            Utils.dismissLoading()
-
-                            if (role == "user") {
-                                startActivity(Intent(context, UserMainActivity::class.java))
-                            }
-//                            else {
-//                                startActivity(Intent(context, AdminActivity::class.java))
-//                            }
-                            activity?.finish()
-                        }
-
-                        override fun onCancelled(error: DatabaseError) {
-
-                        }
-                    })
+                activity?.finish()
             }.addOnFailureListener {
-                Utils.toast(requireContext(), it.toString())
+                Log.d("XXX", it.message.toString())
+                when (it.message.toString()) {
+                    "There is no user record corresponding to this identifier. The user may have been deleted." -> Utils.toast(
+                        requireContext(), "Email tidak terdaftar"
+                    )
+                    "The password is invalid or the user does not have a password." -> Utils.toast(
+                        requireContext(), "Password salah"
+                    )
+                    else -> Utils.toast(requireContext(), "Login gagal")
+                }
                 Utils.dismissLoading()
             }
     }
 
     private fun initView() {
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _b = null
     }
 }

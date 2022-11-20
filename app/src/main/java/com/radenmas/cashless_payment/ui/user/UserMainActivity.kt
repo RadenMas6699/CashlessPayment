@@ -12,6 +12,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.radenmas.cashless_payment.R
 import com.radenmas.cashless_payment.databinding.ActivityUserMainBinding
 import com.radenmas.cashless_payment.ui.scan.ScanActivity
@@ -27,8 +30,10 @@ class UserMainActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
         b = ActivityUserMainBinding.inflate(layoutInflater)
-        val view = b.root
-        setContentView(view)
+        setContentView(b.root)
+
+        val uid: String = FirebaseAuth.getInstance().currentUser!!.uid
+        Firebase.messaging.subscribeToTopic(uid)
 
         initView()
         onClick()
@@ -51,10 +56,16 @@ class UserMainActivity : AppCompatActivity() {
         }
         b.navBottomUser.setupWithNavController(navController)
 
+        Firebase.messaging.isAutoInitEnabled = true
     }
 
     private fun showBottomNav(params: Boolean) {
-        b.navBottomUser.visibility = if (params) {
+        b.bottomAppBar.visibility = if (params) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        b.fab.visibility = if (params) {
             View.VISIBLE
         } else {
             View.GONE

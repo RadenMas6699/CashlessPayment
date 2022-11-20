@@ -9,6 +9,8 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -83,7 +85,9 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
                         checkSaldoUser(qrCode, balanceAdmin, nameAdmin)
                     } else {
                         Utils.toast(this@ScanActivity, "Merchant tidak terdaftar")
-                        onResume()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            onResume()
+                        }, 1500)
                     }
                 }
 
@@ -99,11 +103,11 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         val dataUser = snapshot.getValue(User::class.java)
-                        val balance: Int = dataUser!!.balance!!
-                        if (balance >= 10000) {
+                        val balanceUser: Int = dataUser!!.balance!!
+                        if (balanceUser >= 10000) {
 
                             val saldoAdmin = balanceAdmin + 10000
-                            val saldoUser = balance - 10000
+                            val saldoUser = balanceUser - 10000
 
                             val resultAdmin: MutableMap<String, Any> = HashMap()
                             resultAdmin["balance"] = saldoAdmin
@@ -111,29 +115,58 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
 
                             val resultUser: MutableMap<String, Any> = HashMap()
                             resultUser["balance"] = saldoUser
-                            database.child("User").child(qrCode).updateChildren(resultAdmin)
                             database.child("User").child(uid).updateChildren(resultUser)
 
-                            val idHistory = database.push().key.toString()
+                            val idHistory = Date().time
 
                             val pushHistory: MutableMap<String, Any> = HashMap()
-                            pushHistory["id"] = idHistory
+                            pushHistory["id"] = idHistory.toString()
                             pushHistory["sender_id"] = uid
                             pushHistory["receive_id"] = qrCode
                             pushHistory["sender_name"] = dataUser.username
                             pushHistory["receive_name"] = nameAdmin
                             pushHistory["status"] = "Berhasil"
+                            pushHistory["type"] = "Pembayaran"
                             pushHistory["balance"] = 10000
-                            pushHistory["timestamp"] = Date().time
+                            pushHistory["timestamp"] = idHistory
 
-                            database.child("History").child(qrCode).child(idHistory)
+                            val titleSender = "Pembayaran Berhasil"
+                            val bodySender =
+                                "Kamu telah melakukan pembayaran sebesar ${Utils.formatRupiah(10000)} kepada $nameAdmin pada ${
+                                    Utils.formatDateSimple(idHistory)
+                                }."
+
+                            val titleReceiver = "Dana Masuk"
+                            val bodyReceiver =
+                                "Kamu menerima dana sebesar ${Utils.formatRupiah(10000)} dari ${dataUser.username}  pada ${
+                                    Utils.formatDateSimple(idHistory)
+                                }."
+
+                            Utils.sendNotification(
+                               this@ScanActivity,
+                                titleSender,
+                                bodySender,
+                                uid,
+                                idHistory
+                            )
+
+                            Utils.sendNotification(
+                                this@ScanActivity,
+                                titleReceiver,
+                                bodyReceiver,
+                                qrCode,
+                                idHistory
+                            )
+
+                            database.child("History").child(qrCode).child(idHistory.toString())
                                 .setValue(pushHistory)
-                            database.child("History").child(uid).child(idHistory)
+                            database.child("History").child(uid).child(idHistory.toString())
                                 .setValue(pushHistory).addOnSuccessListener {
                                     onBackPressed()
                                 }
                         } else {
                             Utils.toast(this@ScanActivity, "Saldo Anda tidak cukup")
+                            onBackPressed()
                         }
                     } else {
                         Utils.toast(this@ScanActivity, "ERROR")

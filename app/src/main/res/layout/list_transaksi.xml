@@ -6,10 +6,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:focusable="true"
-    android:clickable="true"
+    android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
-    android:layout_height="wrap_content">
+    android:clickable="true"
+    android:focusable="true">
 
     <ImageView
         android:id="@+id/imgType"
@@ -21,7 +21,6 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/ic_circle_dot_primary"
         android:padding="8dp"
-        android:src="@drawable/ic_top_up"
         app:tint="@color/white" />
 
     <LinearLayout
@@ -44,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_toStartOf="@id/tvBalance"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/primary_text"
                 android:textSize="14sp" />
 

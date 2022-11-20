@@ -13,13 +13,29 @@
         android:id="@+id/userHomeFragment"
         android:name="com.radenmas.cashless_payment.ui.user.UserHomeFragment"
         android:label="@string/home"
-        tools:layout="@layout/fragment_user_home"/>
+        tools:layout="@layout/fragment_user_home">
+        <action
+            android:id="@+id/action_userHomeFragment_to_userHistoryFragment"
+            app:destination="@id/userHistoryFragment" />
+        <action
+            android:id="@+id/action_userHomeFragment_to_userNotificationFragment"
+            app:destination="@id/userNotificationFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/userProfileFragment"
         android:name="com.radenmas.cashless_payment.ui.user.UserProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_user_profile"/>
-
+    <fragment
+        android:id="@+id/userHistoryFragment"
+        android:name="com.radenmas.cashless_payment.ui.user.UserHistoryFragment"
+        android:label="fragment_user_history"
+        tools:layout="@layout/fragment_user_history" />
+    <fragment
+        android:id="@+id/userNotificationFragment"
+        android:name="com.radenmas.cashless_payment.ui.user.UserNotificationFragment"
+        android:label="fragment_user_notification"
+        tools:layout="@layout/fragment_user_notification" />
 
 </navigation>

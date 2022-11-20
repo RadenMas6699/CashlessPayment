@@ -18,8 +18,8 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:src="@drawable/img_login"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="24dp"
+            android:src="@drawable/img_login" />
 
         <TextView
             android:layout_width="match_parent"
@@ -32,16 +32,16 @@
             android:textColor="@color/primary_text"
             android:textSize="28sp" />
 
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            android:layout_marginEnd="16dp"-->
-<!--            android:fontFamily="@font/roboto"-->
-<!--            android:text="@string/login_desc"-->
-<!--            android:textColor="@color/primary_text"-->
-<!--            android:textSize="16sp" />-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/login_desc"
+            android:textColor="@color/primary_text"
+            android:textSize="16sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -59,15 +59,6 @@
                 android:inputType="textEmailAddress"
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <!--        <EditText-->
-        <!--            android:id="@+id/etUsername"-->
-        <!--            style="@style/EditText"-->
-        <!--            android:layout_marginTop="24dp"-->
-        <!--            android:imeOptions="actionNext"-->
-        <!--            android:singleLine="true"-->
-        <!--            android:drawableStart="@drawable/ic_profile_outline"-->
-        <!--            android:hint="@string/username"/>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

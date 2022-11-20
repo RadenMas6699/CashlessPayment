@@ -8,12 +8,19 @@ package com.radenmas.cashless_payment.utils
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Bitmap
-import android.view.View
+import android.graphics.Color
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.snackbar.Snackbar
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import com.google.firebase.database.FirebaseDatabase
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.MultiFormatWriter
 import com.radenmas.cashless_payment.R
+import com.radenmas.cashless_payment.model.Notification
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
@@ -24,7 +31,12 @@ import kotlin.math.sqrt
  */
 object Utils {
     private lateinit var loading: Dialog
-    private lateinit var resultSuccess: Dialog
+    private lateinit var qrcode: Dialog
+
+    const val FCM_API = "https://fcm.googleapis.com/fcm/send"
+    const val serverKey =
+        "key=AAAAEcSZtig:APA91bGhjXfPwDeFJa5fVzt-1DDnlFEYOJg1EroUP6LvW_nD5rcZ8tx36jDYGhErwJlgvufUXaIQWC17zVsPSt-NKBMJsipvLLQ33Op3gf_phm-xsOKNexHkWawMkNvMkP90WqSWdtam"
+    const val contentType = "application/json"
 
     fun showLoading(context: Context) {
         loading = Dialog(context)
@@ -37,57 +49,90 @@ object Utils {
         loading.dismiss()
     }
 
-    fun showResultSuccess(context: Context, title: String, desc: String, navigation: Unit) {
-        resultSuccess = Dialog(context)
-        resultSuccess.setContentView(R.layout.dialog_result_success)
-        resultSuccess.window!!.setBackgroundDrawableResource(R.drawable.bg_progress)
-        resultSuccess.show()
+    fun showQRCode(context: Context, uid: String) {
+        qrcode = Dialog(context)
+        qrcode.setContentView(R.layout.dialog_qr_code)
+        qrcode.window!!.setBackgroundDrawableResource(R.drawable.bg_progress)
+        qrcode.show()
 
-        val titleResultSuccess = resultSuccess.findViewById<TextView>(R.id.titleResult)
-        val descResultSuccess = resultSuccess.findViewById<TextView>(R.id.descResult)
-        val btnResultSuccess = resultSuccess.findViewById<MaterialButton>(R.id.btnResult)
+        val titleResultSuccess = qrcode.findViewById<TextView>(R.id.tvUid)
+        val imageQRCode = qrcode.findViewById<ImageView>(R.id.imgQRCode)
 
-        titleResultSuccess.text = title
-        descResultSuccess.text = desc
-        btnResultSuccess.setOnClickListener {
-            resultSuccess.dismiss()
+        titleResultSuccess.text = uid
+
+        val matrix = MultiFormatWriter().encode(
+            uid,
+            BarcodeFormat.QR_CODE,
+            300, 300
+        )
+
+        val width = matrix.width
+        val height = matrix.height
+        val pixels = IntArray(width * height)
+
+        for (y in 0 until height) {
+            val offset = y * width
+            for (x in 0 until width) {
+                pixels[offset + x] = if (matrix[x, y]) Color.BLACK else Color.WHITE
+            }
         }
-    }
-
-    fun dismissResultSuccess() {
-        resultSuccess.dismiss()
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+        imageQRCode.setImageBitmap(bitmap)
     }
 
     fun toast(context: Context, msg: String) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 
-    fun snack(view: View, msg: String) {
-        Snackbar.make(
-            view,
-            msg,
-            Snackbar.LENGTH_LONG
-        ).show()
-    }
+    fun sendNotification(
+        context: Context,
+        title: String,
+        body: String,
+        to: String,
+        timestamp: Long
+    ) {
+        val notification = JSONObject()
+        val notificationBody = JSONObject()
 
-    fun snackInfinite(view: View, msg: String): Snackbar {
-        return Snackbar.make(
-            view,
-            msg, Snackbar.LENGTH_INDEFINITE
+        notificationBody.put("title", title)
+        notificationBody.put(
+            "body",
+            body
         )
-    }
+        notification.put("to", "/topics/$to")
+        notification.put("notification", notificationBody)
 
-    fun formatDateFull(timestamp: Long): String {
-        val formatDate = SimpleDateFormat(
-            "EEEE, dd LLLL yyyy 'pukul' HH:mm", Locale("ID")
+        val requestQueue = Volley.newRequestQueue(context)
+        val jsonObjectRequest = object : JsonObjectRequest(
+            FCM_API, notification,
+            Response.Listener { _ ->
+            },
+            Response.ErrorListener {
+            }) {
+
+            override fun getHeaders(): Map<String, String> {
+                val params = HashMap<String, String>()
+                params["Authorization"] = serverKey
+                params["Content-Type"] = contentType
+                return params
+            }
+        }
+        requestQueue.add(jsonObjectRequest)
+
+        val dataNotif = Notification(
+            title,
+            body,
+            timestamp,
+            false
         )
-        val date = Date(timestamp)
-        return formatDate.format(date)
+        FirebaseDatabase.getInstance().reference.child("Notification")
+            .child(to).child(timestamp.toString()).setValue(dataNotif)
     }
 
     fun formatDateSimple(timestamp: Long): String {
         val formatDate = SimpleDateFormat(
-            "dd MMM yyyy, HH:mm", Locale("ID")
+            "dd MMM yyyy • HH:mm", Locale("ID")
         )
         val date = Date(timestamp)
         return formatDate.format(date)
@@ -101,23 +146,6 @@ object Utils {
         val number: String =
             String.format("%,d", value)
         return "Rp$number"
-    }
-
-    fun formatToken(value: String): String {
-        var number = value
-        number = number.substring(0, number.length - 4) + "-" + number.substring(
-            number.length - 4,
-            number.length
-        )
-        number = number.substring(0, number.length - 8) + ")" + number.substring(
-            number.length - 8,
-            number.length
-        )
-        number = number.substring(0, number.length - 12) + "(" + number.substring(
-            number.length - 12,
-            number.length
-        )
-        return number
     }
 
     fun reduceBitmapSize(bitmap: Bitmap, MAX_SIZE: Int): Bitmap? {

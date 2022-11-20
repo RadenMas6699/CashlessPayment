@@ -6,6 +6,7 @@
 package com.radenmas.cashless_payment.ui.auth
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,15 +19,14 @@ import com.radenmas.cashless_payment.utils.Utils
 
 class RegisterFragment : Fragment() {
 
-    private var _b: FragmentRegisterBinding? = null
-    private val b get() = _b!!
+    private lateinit var b: FragmentRegisterBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _b = FragmentRegisterBinding.inflate(inflater, container, false)
+        b = FragmentRegisterBinding.inflate(inflater, container, false)
         val view = b.root
 
         initView()
@@ -40,8 +40,6 @@ class RegisterFragment : Fragment() {
             val email: String = b.etEmail.text.toString().trim()
             val password: String = b.etPassword.text.toString().trim()
             val repeatPassword: String = b.etRepeatPassword.text.toString().trim()
-
-
 
             if (username.isEmpty() || email.isEmpty() || password.isEmpty() || repeatPassword.isEmpty()) {
                 Utils.toast(requireContext(), "Lengkapi yang masih kosong")
@@ -60,7 +58,7 @@ class RegisterFragment : Fragment() {
 
     private fun register(username: String, email: String, password: String) {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-            .addOnSuccessListener { it ->
+            .addOnSuccessListener {
                 val uid: String = it.user!!.uid
 
                 val dataUser = User(uid, username, email, password, "default", 0, "user")
@@ -71,17 +69,23 @@ class RegisterFragment : Fragment() {
                         activity?.onBackPressed()
                     }
             }.addOnFailureListener {
-                Utils.toast(requireContext(), it.toString())
+                Log.d("XXX", it.message.toString())
+                when (it.message.toString()) {
+                    "The email address is already in use by another account." -> Utils.toast(
+                        requireContext(),
+                        "Email telah terdaftar"
+                    )
+                    "The given password is invalid. [ Password should be at least 6 characters ]" -> Utils.toast(
+                        requireContext(),
+                        "Password minimal 6 karakter"
+                    )
+                    else -> Utils.toast(requireContext(), "Registrasi gagal")
+                }
                 Utils.dismissLoading()
             }
     }
 
     private fun initView() {
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _b = null
     }
 }
