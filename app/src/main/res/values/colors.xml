@@ -25,7 +25,4 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#E02020</color>
-    <color name="semi_red">#26E02020</color>
-    <color name="orange">#FFC730</color>
-    <color name="green">#15BE6D</color>
 </resources>

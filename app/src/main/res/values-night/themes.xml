@@ -5,7 +5,7 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.LOKI_logo_kita" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Cashless.Payment" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primary</item>
@@ -19,7 +19,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Splash" parent="Theme.LOKI_logo_kita">
+    <style name="Splash" parent="Theme.Cashless.Payment">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorOnPrimary</item>
     </style>

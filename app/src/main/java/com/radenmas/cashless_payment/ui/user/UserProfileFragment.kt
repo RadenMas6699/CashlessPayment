@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -60,6 +61,7 @@ class UserProfileFragment : Fragment() {
         }
 
         b.btnLogout.setOnClickListener {
+            Firebase.auth.signOut()
 
             Firebase.messaging.unsubscribeFromTopic(uid)
 

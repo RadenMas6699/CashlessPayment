@@ -22,8 +22,8 @@
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_scan_outline"
             app:tint="@color/primary_light2" />

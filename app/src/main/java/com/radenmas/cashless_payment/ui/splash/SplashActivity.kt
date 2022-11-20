@@ -5,7 +5,6 @@
 
 package com.radenmas.cashless_payment.ui.splash
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -15,7 +14,6 @@ import com.radenmas.cashless_payment.R
 import com.radenmas.cashless_payment.databinding.ActivitySplashBinding
 import com.radenmas.cashless_payment.ui.auth.AuthActivity
 
-@SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
     lateinit var b: ActivitySplashBinding
 
