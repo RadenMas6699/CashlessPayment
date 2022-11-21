@@ -14,6 +14,7 @@ import android.os.Looper
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -41,6 +42,7 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         b = ActivityScanBinding.inflate(layoutInflater)
         setContentView(b.root)
@@ -70,8 +72,11 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
         // Saldo User - 10000
         // Saldo Admin + 10000
 
-        checkQRCode(qrCode)
-
+        if (qrCode == uid) {
+            Utils.toast(this, "Tidak dapat melakukan transaksi ke akun sendiri")
+        } else {
+            checkQRCode(qrCode)
+        }
     }
 
     private fun checkQRCode(qrCode: String) {
@@ -143,7 +148,7 @@ class ScanActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {
                                 }."
 
                             Utils.sendNotification(
-                               this@ScanActivity,
+                                this@ScanActivity,
                                 titleSender,
                                 bodySender,
                                 uid,

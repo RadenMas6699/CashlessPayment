@@ -37,6 +37,16 @@
         android:id="@+id/imgQRCode"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:scaleType="fitXY"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:scaleType="fitXY" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnDownloadQR"
+        style="@style/ButtonStyle1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="8dp"
+        android:text="@string/unduh_qr_code"
+        android:textColor="@color/white" />
 </LinearLayout>

@@ -38,5 +38,6 @@
     <string name="rp">Rp</string>
     <string name="desc_transaction_empty">Transaksi kamu masih kosong</string>
     <string name="desc_notification_empty">Tidak ada notifikasi</string>
+    <string name="unduh_qr_code">Unduh QR Code</string>
 
 </resources>

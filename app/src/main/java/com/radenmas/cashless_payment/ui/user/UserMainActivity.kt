@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
@@ -26,14 +27,12 @@ class UserMainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        b = ActivityUserMainBinding.inflate(layoutInflater)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
-        b = ActivityUserMainBinding.inflate(layoutInflater)
         setContentView(b.root)
-
-        val uid: String = FirebaseAuth.getInstance().currentUser!!.uid
-        Firebase.messaging.subscribeToTopic(uid)
 
         initView()
         onClick()
@@ -57,6 +56,8 @@ class UserMainActivity : AppCompatActivity() {
         b.navBottomUser.setupWithNavController(navController)
 
         Firebase.messaging.isAutoInitEnabled = true
+        val uid: String = FirebaseAuth.getInstance().currentUser!!.uid
+        Firebase.messaging.subscribeToTopic(uid)
     }
 
     private fun showBottomNav(params: Boolean) {

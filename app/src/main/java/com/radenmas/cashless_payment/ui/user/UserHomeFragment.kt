@@ -51,6 +51,8 @@ class UserHomeFragment : Fragment() {
     private val database = FirebaseDatabase.getInstance().reference
 
     lateinit var username: String
+    lateinit var firstname: String
+    lateinit var lastname: String
     lateinit var email: String
     private var topup: Int = 0
     var times: Long = 0
@@ -70,7 +72,7 @@ class UserHomeFragment : Fragment() {
 
     private fun onClick() {
         b.imgQRCode.setOnClickListener {
-            Utils.showQRCode(requireContext(), uid)
+            Utils.showQRCode(requireContext(), uid, username)
         }
 
         b.imgNotif.setOnClickListener {
@@ -93,16 +95,16 @@ class UserHomeFragment : Fragment() {
 
                 if (topup >= 10000) {
                     SdkUIFlowBuilder.init()
-                        .setClientKey("SB-Mid-client-D6faLTwxPSt9lxtv") // client_key is mandatory
-                        .setContext(requireContext()) // context is mandatory
-                        .setMerchantBaseUrl("https://radenmas.store/api/cashless-payment/index.php/") //set merchant url (required
-                        .enableLog(true) // enable sdk log (optional)
+                        .setClientKey(com.radenmas.cashless_payment.BuildConfig.CLIENT_KEY)
+                        .setContext(requireContext())
+                        .setMerchantBaseUrl(com.radenmas.cashless_payment.BuildConfig.MERCHANT_BASE_URL)
+                        .enableLog(false)
                         .setColorTheme(
                             CustomColorTheme(
                                 "#FFE51255", "#FFB61548", "#FFE51255"
                             )
-                        ) // set theme. it will replace theme on snap theme on MAP ( optional)
-                        .setLanguage("id") //`en` for English and `id` for Bahasa
+                        )
+                        .setLanguage("id")
                         .buildSDK()
 
                     val transactionRequest = TransactionRequest(
@@ -111,25 +113,24 @@ class UserHomeFragment : Fragment() {
 
                     val customerDetails = CustomerDetails()
                     customerDetails.customerIdentifier = uid
-                    customerDetails.phone = ""
-                    customerDetails.firstName = username
-                    customerDetails.lastName = username
+                    customerDetails.phone = "081234567890"
+                    customerDetails.firstName = firstname
+                    customerDetails.lastName = lastname
                     customerDetails.email = email
 
                     val shippingAddress = ShippingAddress()
-                    shippingAddress.address = email
-                    shippingAddress.city = username
-                    shippingAddress.postalCode = username
+                    shippingAddress.address = "Parang Tambung"
+                    shippingAddress.city = "Makassar"
+                    shippingAddress.postalCode = "90224"
                     customerDetails.shippingAddress = shippingAddress
 
                     val billingAddress = BillingAddress()
-                    billingAddress.address = email
-                    billingAddress.city = username
-                    billingAddress.postalCode = username
+                    billingAddress.address = "Parang Tambung"
+                    billingAddress.city = "Makassar"
+                    billingAddress.postalCode = "90224"
                     customerDetails.billingAddress = billingAddress
 
                     transactionRequest.customerDetails = customerDetails
-
 
                     MidtransSDK.getInstance().transactionRequest = transactionRequest
                     MidtransSDK.getInstance().startPaymentUiFlow(requireContext())
@@ -149,31 +150,37 @@ class UserHomeFragment : Fragment() {
     private fun initView() {
         Utils.showLoading(requireContext())
 
-        database.child("User").child(uid).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val user = snapshot.getValue(User::class.java)!!
+        database.child("User").child(uid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val user = snapshot.getValue(User::class.java)!!
 
-                username = user.username
-                email = user.email
+                    Glide.with(requireContext()).load(user.profile)
+                        .placeholder(R.drawable.ic_profile_default).into(b.imgProfile)
 
-                Glide.with(requireContext()).load(user.profile)
-                    .placeholder(R.drawable.ic_profile_default).into(b.imgProfile)
+                    username = user.username
+                    email = user.email
 
-                b.tvUsername.text = user.username
-                b.tvBalance.text = Utils.formatNumber(user.balance!!)
+                    val split = username.split(" ")
 
-                when (user.role) {
-                    "admin" -> b.imgQRCode.visibility = View.VISIBLE
-                    else -> {
-                        b.imgQRCode.visibility = View.GONE
+                    firstname = split[0]
+                    lastname = split[split.size - 1]
+
+                    b.tvUsername.text = user.username
+                    b.tvBalance.text = Utils.formatNumber(user.balance!!)
+
+                    when (user.role) {
+                        "admin" -> b.imgQRCode.visibility = View.VISIBLE
+                        else -> {
+                            b.imgQRCode.visibility = View.GONE
+                        }
                     }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {
+                override fun onCancelled(error: DatabaseError) {
 
-            }
-        })
+                }
+            })
 
         b.rvHistory.setHasFixedSize(true)
         val linearLayoutManager = LinearLayoutManager(context)

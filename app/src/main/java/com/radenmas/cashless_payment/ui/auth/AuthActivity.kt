@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
@@ -28,12 +29,12 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        b = ActivityAuthBinding.inflate(layoutInflater)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
-        b = ActivityAuthBinding.inflate(layoutInflater)
-        val view = b.root
-        setContentView(view)
+        setContentView(b.root)
 
         initView()
         onClick()
@@ -52,6 +53,7 @@ class AuthActivity : AppCompatActivity() {
         }
 
         requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+        requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
     private fun requestPermission(permission: String) {

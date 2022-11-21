@@ -15,13 +15,13 @@ import com.radenmas.cashless_payment.databinding.ActivitySplashBinding
 import com.radenmas.cashless_payment.ui.auth.AuthActivity
 
 class SplashActivity : AppCompatActivity() {
+
     lateinit var b: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = ActivitySplashBinding.inflate(layoutInflater)
-        val view = b.root
-        setContentView(view)
+        setContentView(b.root)
 
         initView()
         onClick()

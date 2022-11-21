@@ -6,21 +6,30 @@
 package com.radenmas.cashless_payment.utils
 
 import android.app.Dialog
+import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.button.MaterialButton
 import com.google.firebase.database.FirebaseDatabase
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
+import com.radenmas.cashless_payment.BuildConfig
 import com.radenmas.cashless_payment.R
 import com.radenmas.cashless_payment.model.Notification
 import org.json.JSONObject
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
@@ -33,11 +42,6 @@ object Utils {
     private lateinit var loading: Dialog
     private lateinit var qrcode: Dialog
 
-    const val FCM_API = "https://fcm.googleapis.com/fcm/send"
-    const val serverKey =
-        "key=AAAAEcSZtig:APA91bGhjXfPwDeFJa5fVzt-1DDnlFEYOJg1EroUP6LvW_nD5rcZ8tx36jDYGhErwJlgvufUXaIQWC17zVsPSt-NKBMJsipvLLQ33Op3gf_phm-xsOKNexHkWawMkNvMkP90WqSWdtam"
-    const val contentType = "application/json"
-
     fun showLoading(context: Context) {
         loading = Dialog(context)
         loading.setContentView(R.layout.dialog_progress)
@@ -49,16 +53,17 @@ object Utils {
         loading.dismiss()
     }
 
-    fun showQRCode(context: Context, uid: String) {
+    fun showQRCode(context: Context, uid: String, name: String) {
         qrcode = Dialog(context)
         qrcode.setContentView(R.layout.dialog_qr_code)
         qrcode.window!!.setBackgroundDrawableResource(R.drawable.bg_progress)
         qrcode.show()
 
-        val titleResultSuccess = qrcode.findViewById<TextView>(R.id.tvUid)
-        val imageQRCode = qrcode.findViewById<ImageView>(R.id.imgQRCode)
+        val tvUid = qrcode.findViewById<TextView>(R.id.tvUid)
+        val imgQRCode = qrcode.findViewById<ImageView>(R.id.imgQRCode)
+        val btnDownloadQR = qrcode.findViewById<MaterialButton>(R.id.btnDownloadQR)
 
-        titleResultSuccess.text = uid
+        tvUid.text = uid
 
         val matrix = MultiFormatWriter().encode(
             uid,
@@ -78,7 +83,50 @@ object Utils {
         }
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
-        imageQRCode.setImageBitmap(bitmap)
+        imgQRCode.setImageBitmap(bitmap)
+
+        btnDownloadQR.setOnClickListener {
+            saveImage(context, name, bitmap)
+        }
+    }
+
+    private fun saveImage(context: Context, name: String, bitmap: Bitmap): Boolean {
+        val saved: Boolean
+        val fos: OutputStream
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val contentValues = ContentValues()
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, System.currentTimeMillis())
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/" + "Cashless Payment")
+            val imageUri =
+                context.contentResolver.insert(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    contentValues
+                )
+            fos = context.contentResolver.openOutputStream(imageUri!!)!!
+        } else {
+            val imagesDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM
+            ).toString() + File.separator + "Cashless Payment"
+
+            val file = File(imagesDir)
+
+            if (!file.exists()) {
+                file.mkdir()
+            }
+
+            val image = File(imagesDir, "$name.png")
+            fos = FileOutputStream(image)
+        }
+
+        saved = bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+        fos.flush()
+        fos.close()
+
+        toast(context,"QR Code berhasil disimpan")
+
+        return saved
     }
 
     fun toast(context: Context, msg: String) {
@@ -105,7 +153,7 @@ object Utils {
 
         val requestQueue = Volley.newRequestQueue(context)
         val jsonObjectRequest = object : JsonObjectRequest(
-            FCM_API, notification,
+            BuildConfig.FCM_API, notification,
             Response.Listener { _ ->
             },
             Response.ErrorListener {
@@ -113,8 +161,8 @@ object Utils {
 
             override fun getHeaders(): Map<String, String> {
                 val params = HashMap<String, String>()
-                params["Authorization"] = serverKey
-                params["Content-Type"] = contentType
+                params["Authorization"] = BuildConfig.SERVER_KEY
+                params["Content-Type"] = "application/json"
                 return params
             }
         }
