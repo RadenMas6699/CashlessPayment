@@ -45,8 +45,7 @@
             style="@style/EditText"
             android:layout_marginBottom="24dp"
             android:hint="Minimal Rp10.000"
-            android:imeOptions="actionNext"
-            android:inputType="numberSigned"
+            android:inputType="number"
             android:singleLine="true" />
     </LinearLayout>
 

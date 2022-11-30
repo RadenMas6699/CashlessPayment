@@ -97,9 +97,9 @@ class UserNotificationFragment : Fragment() {
                 } else {
                     holder.itemView.setBackgroundColor(resources.getColor(R.color.primary_light2))
                 }
-                holder.tvType!!.text = notification.title
-                holder.tvDesc!!.text = notification.body
-                holder.tvTimestamp!!.text = Utils.formatDateSimple(notification.timestamp!!)
+                holder.tvTitleNotification!!.text = notification.title
+                holder.tvDescNotification!!.text = notification.body
+                holder.tvTimestampNotification!!.text = Utils.formatDateSimple(notification.timestamp)
 
                 holder.itemView.setOnClickListener {
                     val dataNotif: MutableMap<String, Any> = HashMap()
@@ -115,7 +115,7 @@ class UserNotificationFragment : Fragment() {
                 viewType: Int
             ): FirebaseViewHolder {
                 return FirebaseViewHolder(
-                    LayoutInflater.from(context)
+                    LayoutInflater.from(requireContext())
                         .inflate(R.layout.list_notification, parent, false)
                 )
             }

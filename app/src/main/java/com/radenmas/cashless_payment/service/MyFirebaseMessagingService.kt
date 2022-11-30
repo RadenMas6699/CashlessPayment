@@ -36,7 +36,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val channel = NotificationChannel(
             CHANNEL_ID,
-            "Notif",
+            "Notification",
             NotificationManager.IMPORTANCE_HIGH
         )
         channel.enableVibration(true)
@@ -44,8 +44,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         manager.createNotificationChannel(channel)
 
         val builder: Notification.Builder = Notification.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_scan_outline)
-            .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_scan_outline))
+            .setSmallIcon( R.mipmap.ic_launcher_round)
+            .setLargeIcon(BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher_round))
             .setContentTitle(title)
             .setContentText(text)
             .setStyle(Notification.BigTextStyle().bigText(text))
@@ -53,7 +53,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setSound(soundUri)
             .setAutoCancel(true)
             .setDefaults(Notification.DEFAULT_ALL)
-            .setPriority(Notification.PRIORITY_HIGH)
+            .setPriority(Notification.PRIORITY_DEFAULT)
         NotificationManagerCompat.from(this).notify(1, builder.build())
 
     }

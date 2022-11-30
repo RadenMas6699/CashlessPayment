@@ -5,7 +5,7 @@
 
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.Cashless.Payment" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Cashless.Payment" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primary</item>
@@ -15,9 +15,23 @@
         <item name="colorSecondaryVariant">@color/primary</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/white</item>
+<!--        <item name="android:statusBarColor">@color/primary</item>-->
         <!-- Customize your theme here. -->
         <item name="textInputStyle">@style/Widget.MyApp.TextInputLayout</item>
+
+        <item name="android:navigationBarColor">
+            @android:color/transparent
+        </item>
+
+        <!-- Optional: set to transparent if your app is drawing behind the status bar. -->
+        <item name="android:statusBarColor">
+            @android:color/transparent
+        </item>
+
+        <!-- Optional: set the status bar light and content dark. -->
+        <item name="android:windowLightStatusBar">
+            true
+        </item>
     </style>
 
     <style name="Widget.MyApp.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">

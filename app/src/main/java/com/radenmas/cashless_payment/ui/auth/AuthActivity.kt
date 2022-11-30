@@ -5,23 +5,12 @@
 
 package com.radenmas.cashless_payment.ui.auth
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.radenmas.cashless_payment.databinding.ActivityAuthBinding
 import com.radenmas.cashless_payment.ui.user.UserMainActivity
-import com.radenmas.cashless_payment.utils.Utils
 
 class AuthActivity : AppCompatActivity() {
 
@@ -30,64 +19,13 @@ class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = ActivityAuthBinding.inflate(layoutInflater)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
-        setContentView(b.root)
+        b.root.apply { setContentView(this) }
 
-        initView()
-        onClick()
-    }
-
-    private fun onClick() {
-
-    }
-
-    private fun initView() {
-        val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+        val user = FirebaseAuth.getInstance().currentUser
 
         if (user != null) {
             startActivity(Intent(this, UserMainActivity::class.java))
             finish()
         }
-
-        requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-        requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
-
-    private fun requestPermission(permission: String) {
-        when {
-            ContextCompat.checkSelfPermission(
-                this,
-                permission
-            ) == PackageManager.PERMISSION_GRANTED -> {
-            }
-            ActivityCompat.shouldShowRequestPermissionRationale(
-                this,
-                permission
-            ) -> {
-                Utils.toast(this, "Permission Required")
-                requestPermissionLauncher.launch(
-                    permission
-                )
-            }
-            else -> {
-                requestPermissionLauncher.launch(
-                    permission
-                )
-            }
-        }
-    }
-
-    private val requestPermissionLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isGranted: Boolean ->
-            if (isGranted) {
-                Log.i("Permission: ", "Granted")
-            } else {
-                Log.i("Permission: ", "Denied")
-            }
-        }
 }

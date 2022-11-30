@@ -5,12 +5,16 @@
 
 package com.radenmas.cashless_payment.ui.user
 
+import android.Manifest
 import android.content.Intent
-import android.os.Build
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
@@ -28,10 +32,6 @@ class UserMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = ActivityUserMainBinding.inflate(layoutInflater)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
         setContentView(b.root)
 
         initView()
@@ -58,7 +58,45 @@ class UserMainActivity : AppCompatActivity() {
         Firebase.messaging.isAutoInitEnabled = true
         val uid: String = FirebaseAuth.getInstance().currentUser!!.uid
         Firebase.messaging.subscribeToTopic(uid)
+
+        requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+        requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
+
+    private fun requestPermission(permission: String) {
+        when {
+            ContextCompat.checkSelfPermission(
+                this,
+                permission
+            ) == PackageManager.PERMISSION_GRANTED -> {
+            }
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                permission
+            ) -> {
+                Utils.toast(this, "Permission Required")
+                requestPermissionLauncher.launch(
+                    permission
+                )
+            }
+            else -> {
+                requestPermissionLauncher.launch(
+                    permission
+                )
+            }
+        }
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                Log.i("Permission: ", "Granted")
+            } else {
+                Log.i("Permission: ", "Denied")
+            }
+        }
 
     private fun showBottomNav(params: Boolean) {
         b.bottomAppBar.visibility = if (params) {

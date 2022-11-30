@@ -39,5 +39,6 @@
     <string name="desc_transaction_empty">Transaksi kamu masih kosong</string>
     <string name="desc_notification_empty">Tidak ada notifikasi</string>
     <string name="unduh_qr_code">Unduh QR Code</string>
+    <string name="desc_payment">Arahkan kamera kamu ke kode QR untuk\nmelakukan pembayaran</string>
 
 </resources>

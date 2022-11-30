@@ -10,9 +10,9 @@ package com.radenmas.cashless_payment.model
  */
 
 class Notification {
-    lateinit var title: String
-    lateinit var body: String
-    var timestamp: Long? = null
+    var title: String = ""
+    var body: String = ""
+    var timestamp: Long = 0
     var read: Boolean = false
 
     constructor()

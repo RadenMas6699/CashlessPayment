@@ -21,6 +21,12 @@ class FirebaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var tvStatus: TextView? = null
     var tvTimestamp: TextView? = null
 
+    // List Notification
+    var imgTypeNotification: ImageView? = null
+    var tvTitleNotification: TextView? = null
+    var tvDescNotification: TextView? = null
+    var tvTimestampNotification: TextView? = null
+
     init {
         // List Transaksi
         imgType = itemView.findViewById(R.id.imgType)
@@ -30,5 +36,10 @@ class FirebaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         tvStatus = itemView.findViewById(R.id.tvStatus)
         tvTimestamp = itemView.findViewById(R.id.tvTimestamp)
 
+        // List Notification
+        imgTypeNotification = itemView.findViewById(R.id.imgTypeNotification)
+        tvTitleNotification = itemView.findViewById(R.id.tvTitleNotification)
+        tvDescNotification = itemView.findViewById(R.id.tvDescNotification)
+        tvTimestampNotification = itemView.findViewById(R.id.tvTimestampNotification)
     }
 }

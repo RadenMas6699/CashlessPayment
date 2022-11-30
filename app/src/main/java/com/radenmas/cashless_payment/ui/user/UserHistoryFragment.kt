@@ -51,7 +51,7 @@ class UserHistoryFragment : Fragment() {
 
     private fun onClick() {
         b.imgBack.setOnClickListener {
-            activity?.onBackPressed()
+            activity?.onBackPressedDispatcher?.onBackPressed()
         }
     }
 

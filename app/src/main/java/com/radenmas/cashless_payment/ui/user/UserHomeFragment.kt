@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.firebase.ui.database.FirebaseRecyclerAdapter
@@ -54,9 +55,9 @@ class UserHomeFragment : Fragment() {
     lateinit var firstname: String
     lateinit var lastname: String
     lateinit var email: String
-    private var topup: Int = 0
-    var times: Long = 0
-    lateinit var id: String
+
+    private var times: Long = 0
+    private lateinit var id: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -89,55 +90,62 @@ class UserHomeFragment : Fragment() {
             dialog.show()
 
             bs.btnTopUp.setOnClickListener {
-                topup = bs.etTopUp.text.toString().toInt()
-                times = System.currentTimeMillis()
-                id = "$uid-$times"
+                val topup = bs.etTopUp.text.toString()
 
-                if (topup >= 10000) {
-                    SdkUIFlowBuilder.init()
-                        .setClientKey(com.radenmas.cashless_payment.BuildConfig.CLIENT_KEY)
-                        .setContext(requireContext())
-                        .setMerchantBaseUrl(com.radenmas.cashless_payment.BuildConfig.MERCHANT_BASE_URL)
-                        .enableLog(false)
-                        .setColorTheme(
-                            CustomColorTheme(
-                                "#FFE51255", "#FFB61548", "#FFE51255"
+                if (topup.isNotBlank()) {
+                    times = System.currentTimeMillis()
+                    id = "$uid-$times"
+
+                    val isiSaldo = topup.toInt()
+
+                    if (isiSaldo >= 10000) {
+                        dialog.dismiss()
+
+                        SdkUIFlowBuilder.init()
+                            .setClientKey(com.radenmas.cashless_payment.BuildConfig.CLIENT_KEY)
+                            .setContext(requireContext())
+                            .setMerchantBaseUrl(com.radenmas.cashless_payment.BuildConfig.MERCHANT_BASE_URL)
+                            .enableLog(false)
+                            .setColorTheme(
+                                CustomColorTheme(
+                                    "#FFE51255", "#FFB61548", "#FFE51255"
+                                )
                             )
+                            .setLanguage("id")
+                            .buildSDK()
+
+                        val transactionRequest = TransactionRequest(
+                            id, topup.toDouble()
                         )
-                        .setLanguage("id")
-                        .buildSDK()
 
-                    val transactionRequest = TransactionRequest(
-                        id, topup.toDouble()
-                    )
+                        val customerDetails = CustomerDetails()
+                        customerDetails.customerIdentifier = uid
+                        customerDetails.phone = "081234567890"
+                        customerDetails.firstName = firstname
+                        customerDetails.lastName = lastname
+                        customerDetails.email = email
 
-                    val customerDetails = CustomerDetails()
-                    customerDetails.customerIdentifier = uid
-                    customerDetails.phone = "081234567890"
-                    customerDetails.firstName = firstname
-                    customerDetails.lastName = lastname
-                    customerDetails.email = email
+                        val shippingAddress = ShippingAddress()
+                        shippingAddress.address = "Parang Tambung"
+                        shippingAddress.city = "Makassar"
+                        shippingAddress.postalCode = "90224"
+                        customerDetails.shippingAddress = shippingAddress
 
-                    val shippingAddress = ShippingAddress()
-                    shippingAddress.address = "Parang Tambung"
-                    shippingAddress.city = "Makassar"
-                    shippingAddress.postalCode = "90224"
-                    customerDetails.shippingAddress = shippingAddress
+                        val billingAddress = BillingAddress()
+                        billingAddress.address = "Parang Tambung"
+                        billingAddress.city = "Makassar"
+                        billingAddress.postalCode = "90224"
+                        customerDetails.billingAddress = billingAddress
 
-                    val billingAddress = BillingAddress()
-                    billingAddress.address = "Parang Tambung"
-                    billingAddress.city = "Makassar"
-                    billingAddress.postalCode = "90224"
-                    customerDetails.billingAddress = billingAddress
+                        transactionRequest.customerDetails = customerDetails
 
-                    transactionRequest.customerDetails = customerDetails
-
-                    MidtransSDK.getInstance().transactionRequest = transactionRequest
-                    MidtransSDK.getInstance().startPaymentUiFlow(requireContext())
-
-                    dialog.dismiss()
+                        MidtransSDK.getInstance().transactionRequest = transactionRequest
+                        MidtransSDK.getInstance().startPaymentUiFlow(requireContext())
+                    } else {
+                        bs.etTopUp.error = "Minimal isi saldo Rp10.000"
+                    }
                 } else {
-                    bs.etTopUp.error = "Minimal top up Rp10.000"
+                    Utils.toast(requireContext(), "Masukkan nominal isi saldo")
                 }
             }
         }
@@ -183,7 +191,7 @@ class UserHomeFragment : Fragment() {
             })
 
         b.rvHistory.setHasFixedSize(true)
-        val linearLayoutManager = LinearLayoutManager(context)
+        val linearLayoutManager = LinearLayoutManager(requireContext())
         linearLayoutManager.reverseLayout = true
         linearLayoutManager.stackFromEnd = true
         b.rvHistory.layoutManager = linearLayoutManager
@@ -214,6 +222,7 @@ class UserHomeFragment : Fragment() {
                 Utils.dismissLoading()
                 val balance = Utils.formatRupiah(history.balance!!)
                 holder.tvStatus!!.text = history.status
+                holder.tvType!!.text = history.type
                 holder.tvTimestamp!!.text = Utils.formatDateSimple(history.timestamp!!)
 
                 when (history.status) {
@@ -232,14 +241,12 @@ class UserHomeFragment : Fragment() {
 
                 if (history.sender_id == uid) {
                     Glide.with(requireContext()).load(R.drawable.ic_arrow_up).into(holder.imgType!!)
-                    holder.tvType!!.text = history.type
                     holder.tvBalance!!.text = resources.getString(R.string.balance_out, balance)
                     holder.tvDesc!!.text =
                         resources.getString(R.string.pay_out, history.receive_name)
                 } else {
                     Glide.with(requireContext()).load(R.drawable.ic_arrow_down)
                         .into(holder.imgType!!)
-                    holder.tvType!!.text = history.type
                     holder.tvBalance!!.text = resources.getString(R.string.balance_in, balance)
                     holder.tvDesc!!.text = resources.getString(R.string.pay_in, history.sender_name)
                 }
@@ -249,11 +256,18 @@ class UserHomeFragment : Fragment() {
                 parent: ViewGroup, viewType: Int
             ): FirebaseViewHolder {
                 return FirebaseViewHolder(
-                    LayoutInflater.from(context).inflate(R.layout.list_transaksi, parent, false)
+                    LayoutInflater.from(requireContext())
+                        .inflate(R.layout.list_transaksi, parent, false)
                 )
             }
         }
 
+        b.rvHistory.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            )
+        )
         b.rvHistory.adapter = adapter
         adapter.notifyDataSetChanged()
     }

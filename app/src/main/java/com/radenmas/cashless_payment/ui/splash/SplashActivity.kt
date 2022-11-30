@@ -16,28 +16,19 @@ import com.radenmas.cashless_payment.ui.auth.AuthActivity
 
 class SplashActivity : AppCompatActivity() {
 
-    lateinit var b: ActivitySplashBinding
+    private lateinit var b: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(b.root)
 
-        initView()
-        onClick()
-    }
-
-    private fun onClick() {
-
-    }
-
-    private fun initView() {
         val versionName = packageManager.getPackageInfo(packageName, 0).versionName
         b.tvAppVersion.text = resources.getString(R.string.app_version, versionName)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, AuthActivity::class.java))
+            startActivity(Intent(this@SplashActivity, AuthActivity::class.java))
             finish()
-        }, 1500)
+        }, 3000L)
     }
 }

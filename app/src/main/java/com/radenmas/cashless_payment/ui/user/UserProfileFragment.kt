@@ -70,6 +70,7 @@ class UserProfileFragment : Fragment() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 71 && resultCode == RESULT_OK && data != null && data.data != null) {
@@ -86,10 +87,12 @@ class UserProfileFragment : Fragment() {
             val ref = storageReference.child("profile")
             ref.putFile(filePath!!).addOnSuccessListener {
 
-                Glide.with(requireContext()).load(filePath)
-                    .placeholder(R.drawable.ic_profile_default).into(b.imgProfile)
-
                 ref.downloadUrl.addOnSuccessListener { uri: Uri ->
+
+                    Glide.with(requireContext()).load(uri.toString())
+                        .placeholder(R.drawable.ic_profile_default)
+                        .into(b.imgProfile)
+
                     val dataUser: MutableMap<String, Any> = HashMap()
                     dataUser["profile"] = uri.toString()
                     database.child("User").child(uid)
@@ -107,12 +110,13 @@ class UserProfileFragment : Fragment() {
 
     private fun initView() {
         database.child("User").child(uid)
-            .addValueEventListener(object : ValueEventListener {
+            .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val user = snapshot.getValue(User::class.java)!!
 
                     Glide.with(requireContext()).load(user.profile)
-                        .placeholder(R.drawable.ic_profile_default).into(b.imgProfile)
+                        .placeholder(R.drawable.ic_profile_default)
+                        .into(b.imgProfile)
 
                     b.tvUsernameTitle.text = user.username
                     b.tvUsername.text = user.username
