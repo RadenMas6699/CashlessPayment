@@ -220,7 +220,7 @@ class UserHomeFragment : Fragment() {
                 holder: FirebaseViewHolder, i: Int, history: History
             ) {
                 Utils.dismissLoading()
-                val balance = Utils.formatRupiah(history.balance!!)
+                val balance = Utils.formatRupiah(history.balance!!.toInt())
                 holder.tvStatus!!.text = history.status
                 holder.tvType!!.text = history.type
                 holder.tvTimestamp!!.text = Utils.formatDateSimple(history.timestamp!!)

@@ -1,8 +1,8 @@
 buildscript {
     dependencies {
         classpath 'androidx.navigation:navigation-safe-args-gradle-plugin:2.5.3'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0-Beta'
-        classpath 'com.google.gms:google-services:4.3.14'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.21'
+        classpath 'com.google.gms:google-services:4.3.15'
     }
 }/*
  * Created by RadenMas on 19/8/2022.
